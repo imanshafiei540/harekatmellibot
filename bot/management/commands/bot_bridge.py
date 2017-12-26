@@ -27,7 +27,7 @@ class Command(BaseCommand):
             elif content_type == 'contact':
                 command = msg['contact']['phone_number']
                 update_user_phone(telegram_id=chat_id, phone=command)
-                bot.sendMessage(chat_id=chat_id, text="Thanks, We contact with you! ", reply_markup=None)
+                bot.sendMessage(chat_id=chat_id, text="ممنون باهات تماس خواهم گرفت. ", reply_markup=None)
             else:
                 command = 'Null'
 
@@ -38,8 +38,7 @@ class Command(BaseCommand):
                 # End Of Get Data From User
             if not check_user_is(telegram_id=chat_id):
                 add_user(telegram_id=chat_id, username=username)
-
-            if (user_state == "start" or command == "/start") and (
+            if (user_state == "start" or command == "/start") or (
                         user_state != "lock_level_1" and user_state != "lock_level_2" and user_state != "final"):
                 keyboard = InlineKeyboardMarkup(
                     inline_keyboard=[
@@ -47,26 +46,27 @@ class Command(BaseCommand):
                             text=emoji.emojize(":closed_lock_with_key:", use_aliases=True),
                             callback_data='lock_level_1'), ],
                     ])
-                bot.sendMessage(chat_id=chat_id, text=" معما را نمایش بده! ", reply_markup=keyboard)
+                bot.sendMessage(chat_id=chat_id, text="سلام، خوش اومدی.می‌خوام معمایی رو برات مطرح کنم با حل این معما و فرستادن جواب درست برای من به مرحله بعد خواهی رفت. موفق باشی.راستی برای اینکه بتونی معما رو حل کنی با غرفه دانشگاه علم و صنعت رو خوب نگاه کنی.", reply_markup=keyboard)
             elif user_state == "lock_level_1":
-                if command == "Answer":
-                    bot.sendMessage(chat_id=chat_id, text=" Correct Answer! ", reply_markup=None)
+                if command == "گره تبدیل":
+                    bot.sendMessage(chat_id=chat_id, text=" عالیه. جواب درست بود حالا به این فایل صوتی که برات فرستادم دقت کن و رمزشو کشف کن و برای من بفرست تا به مرحله بعد راهنماییت کنم. ", reply_markup=None)
+                    bot.sendAudio(chat_id=chat_id, audio=open('/Users/impala69/Desktop/harekatmellibot/harekatmellibot/bot/management/commands/morse.wav', 'r'), caption="Morse Me !!!")
                     set_state(telegram_id=chat_id, state_word="lock_level_2")
                 else:
-                    bot.sendMessage(chat_id=chat_id, text=" Wrong Answer! ", reply_markup=None)
+                    bot.sendMessage(chat_id=chat_id, text=" متاسفانه درست نیست، یکبار دیگه تلاش کن. ", reply_markup=None)
 
             elif user_state == "lock_level_2":
-                if command == "Morse":
-                    bot.sendMessage(chat_id=chat_id, text=" Correct Answer Morse! ", reply_markup=None)
-                    bot.sendMessage(chat_id=chat_id, text=" Final Level! ", reply_markup=None)
+                if command.lower() == "CSSA":
+                    bot.sendMessage(chat_id=chat_id, text=" خیلی خوب، حالا مرحله نهایی. ", reply_markup=None)
+                    bot.sendMessage(chat_id=chat_id, text=" از این عدد باید استفاده کنی: ۹۴۲ ", reply_markup=None)
                     set_state(telegram_id=chat_id, state_word='final')
-                    contact_keyboard = KeyboardButton(text='Share contact', resize=True,
+                    contact_keyboard = KeyboardButton(text='اشنراک شماره', resize=True,
                                                       request_contact=True)  # creating contact button object
                     custom_keyboard = [[contact_keyboard]]
                     reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard)
-                    bot.sendMessage(chat_id=chat_id, text=" Send me Your number! ", reply_markup=reply_markup)
+                    bot.sendMessage(chat_id=chat_id, text=" شماره تلفنت رو هم برای من بفرست که بتونم باهات در تماس باشم فقط هم از طریق دکمه زیر شماره تلفن خودت رو با من به اشتراک بزار. ", reply_markup=reply_markup)
                 else:
-                    bot.sendMessage(chat_id=chat_id, text=" Wrong Answer! ", reply_markup=None)
+                    bot.sendMessage(chat_id=chat_id, text=" متاسفانه درست نیست، یکبار دیگه تلاش کن. ", reply_markup=None)
 
         def on_callback_query(msg):
             query_id, from_id, query_data = telepot.glance(msg, flavor='callback_query')
@@ -78,9 +78,10 @@ class Command(BaseCommand):
 
             if check_user_is(telegram_id=from_id):
                 if query_data == u'lock_level_1':
+                    print state
                     if state == 'start':
                         set_state(telegram_id=from_id, state_word='lock_level_1')
-                        bot.sendMessage(chat_id=from_id, text="Question", reply_markup=None)
+                        bot.sendMessage(chat_id=from_id, text="در گذر حرکت از کدام نقوش هندسی در طراحی آن استفاده شد؟", reply_markup=None)
                     else:
                         pass
 
