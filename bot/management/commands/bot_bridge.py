@@ -36,6 +36,8 @@ class Command(BaseCommand):
             else:
                 user_state = "Null"
                 # End Of Get Data From User
+            if command == "/start":
+                set_state(telegram_id=chat_id, state_word="start");
             if not check_user_is(telegram_id=chat_id):
                 add_user(telegram_id=chat_id, username=username)
             if (user_state == "start" or command == "/start") or (
@@ -48,7 +50,7 @@ class Command(BaseCommand):
                     ])
                 bot.sendMessage(chat_id=chat_id, text="سلام، خوش اومدی.می‌خوام معمایی رو برات مطرح کنم با حل این معما و فرستادن جواب درست برای من به مرحله بعد خواهی رفت. موفق باشی.راستی برای اینکه بتونی معما رو حل کنی با غرفه دانشگاه علم و صنعت رو خوب نگاه کنی.", reply_markup=keyboard)
             elif user_state == "lock_level_1":
-                if command == "گره تبدیل":
+                if command == "اسلامی":
                     bot.sendMessage(chat_id=chat_id, text=" عالیه. جواب درست بود حالا به این فایل صوتی که برات فرستادم دقت کن و رمزشو کشف کن و برای من بفرست تا به مرحله بعد راهنماییت کنم. ", reply_markup=None)
                     bot.sendAudio(chat_id=chat_id, audio=open('/var/harekatmellibot/bot/management/commands/morse.wav', 'r'), caption="Morse Me !!!")
                     set_state(telegram_id=chat_id, state_word="lock_level_2")
