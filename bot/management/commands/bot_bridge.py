@@ -58,7 +58,7 @@ class Command(BaseCommand):
                     bot.sendMessage(chat_id=chat_id, text=" متاسفانه درست نیست، یکبار دیگه تلاش کن. ", reply_markup=None)
 
             elif user_state == "lock_level_2":
-                if command.lower() == "CSSA":
+                if command.lower() == "cssa":
                     bot.sendMessage(chat_id=chat_id, text=" خیلی خوب، حالا مرحله نهایی. ", reply_markup=None)
                     bot.sendMessage(chat_id=chat_id, text=" از این عدد باید استفاده کنی: ۹۴۲ ", reply_markup=None)
                     set_state(telegram_id=chat_id, state_word='final')
