@@ -50,7 +50,7 @@ class Command(BaseCommand):
             elif user_state == "lock_level_1":
                 if command == "گره تبدیل":
                     bot.sendMessage(chat_id=chat_id, text=" عالیه. جواب درست بود حالا به این فایل صوتی که برات فرستادم دقت کن و رمزشو کشف کن و برای من بفرست تا به مرحله بعد راهنماییت کنم. ", reply_markup=None)
-                    bot.sendAudio(chat_id=chat_id, audio=open('/Users/impala69/Desktop/harekatmellibot/harekatmellibot/bot/management/commands/morse.wav', 'r'), caption="Morse Me !!!")
+                    bot.sendAudio(chat_id=chat_id, audio=open('/var/harekatmellibot/bot/management/commands/morse.wav', 'r'), caption="Morse Me !!!")
                     set_state(telegram_id=chat_id, state_word="lock_level_2")
                 else:
                     bot.sendMessage(chat_id=chat_id, text=" متاسفانه درست نیست، یکبار دیگه تلاش کن. ", reply_markup=None)
