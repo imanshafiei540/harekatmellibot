@@ -82,8 +82,10 @@ class Command(BaseCommand):
                     if state == 'start':
                         set_state(telegram_id=from_id, state_word='lock_level_1')
                         bot.sendMessage(chat_id=from_id, text="در گذر حرکت از کدام نقوش هندسی در طراحی آن استفاده شد؟", reply_markup=None)
-                    else:
-                        pass
+                    elif state == "final":
+                        bot.sendMessage(chat_id=from_id, text="شما یک بار در بازی شرکت کرده‌اید.",
+                                        reply_markup=None)
+
 
             else:
                 add_user(telegram_id=from_id, username=username)
